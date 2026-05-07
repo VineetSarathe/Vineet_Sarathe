@@ -1,9 +1,7 @@
 import API from "../api/axios";
 
 
-// ==========================================
 // GET USERS
-// ==========================================
 export const getUsers = async (page = 1, limit = 5, search = "") => {
   const response = await API.get(
     `/users?page=${page}&limit=${limit}&search=${search}`
@@ -13,9 +11,7 @@ export const getUsers = async (page = 1, limit = 5, search = "") => {
 };
 
 
-// ==========================================
 // GET SINGLE USER
-// ==========================================
 export const getSingleUser = async (id) => {
   const response = await API.get(`/users/${id}`);
 
@@ -23,9 +19,7 @@ export const getSingleUser = async (id) => {
 };
 
 
-// ==========================================
 // CREATE USER
-// ==========================================
 export const createUser = async (userData) => {
   const response = await API.post("/users", userData);
 
@@ -33,9 +27,7 @@ export const createUser = async (userData) => {
 };
 
 
-// ==========================================
 // UPDATE USER
-// ==========================================
 export const updateUser = async (id, userData) => {
   const response = await API.put(`/users/${id}`, userData);
 
@@ -43,9 +35,7 @@ export const updateUser = async (id, userData) => {
 };
 
 
-// ==========================================
 // DELETE USER
-// ==========================================
 export const deleteUser = async (id) => {
   const response = await API.delete(`/users/${id}`);
 
@@ -53,9 +43,10 @@ export const deleteUser = async (id) => {
 };
 
 
-// ==========================================
+
 // EXPORT CSV
-// ==========================================
 export const exportUsersCSV = async () => {
-  window.open("http://localhost:5000/api/users/export/csv");
+  window.open(
+    `${import.meta.env.VITE_API_URL}/users/export/csv`
+  );
 };
