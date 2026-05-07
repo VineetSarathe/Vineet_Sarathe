@@ -11,9 +11,9 @@ import EmptyState from "../components/common/EmptyState";
 import Pagination from "../components/common/Pagination";
 
 import {
-  getUsers,
-  exportUsersCSV,
-  deleteUser,
+    getUsers,
+    exportUsersCSV,
+    deleteUser,
 } from "../services/userService";
 
 import { toast } from "react-toastify";
@@ -61,7 +61,17 @@ const UsersPage = () => {
     // USE EFFECT
     // ==========================================
     useEffect(() => {
-        fetchUsers();
+
+        // Wake up backend server
+        fetch(import.meta.env.VITE_API_URL);
+
+        // Fetch users after short delay
+        const timer = setTimeout(() => {
+            fetchUsers();
+        }, 1500);
+
+        return () => clearTimeout(timer);
+
     }, [search, currentPage]);
 
 
