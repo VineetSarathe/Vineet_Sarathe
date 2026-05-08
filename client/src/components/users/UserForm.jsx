@@ -190,6 +190,7 @@
 
 
 import { useForm } from "react-hook-form";
+import imageCompression from "browser-image-compression";
 
 const UserForm = ({ onSubmit, loading, defaultValues = {}, isEdit = false, }) => {
   const {
@@ -382,9 +383,21 @@ const UserForm = ({ onSubmit, loading, defaultValues = {}, isEdit = false, }) =>
           <input
             type="file"
             accept="image/*"
-            onChange={(e) =>
-              setValue("profileImage", e.target.files[0])
-            }
+            onChange={async (e) => {
+
+              const file = e.target.files[0];
+
+              if (!file) return;
+
+              const compressedFile =
+                await imageCompression(file, {
+                  maxSizeMB: 0.2,
+                  maxWidthOrHeight: 500,
+                  useWebWorker: true,
+                });
+
+              setValue("profileImage", compressedFile);
+            }}
             className="w-full border border-gray-300 rounded-lg px-4 py-2"
           />
         </div>
