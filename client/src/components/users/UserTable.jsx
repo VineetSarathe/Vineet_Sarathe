@@ -58,14 +58,33 @@ const UserTable = ({ users, handleDeleteClick }) => {
 
                                     <div className="relative flex-shrink-0">
 
-                                        <div
+                                        {/* <div
                                            className="w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold shadow-sm"
                                             style={{
                                                 backgroundColor: getRandomColor(user.firstName)
                                             }}
                                         >
                                             {user.firstName.charAt(0).toUpperCase()}
-                                        </div>
+                                        </div> */}
+
+                                        {
+                                            user.profileImage ? (
+                                                <img
+                                                    src={`https://vineet-sarathe.onrender.com${user.profileImage}`}
+                                                    alt="profile"
+                                                    className="w-11 h-11 rounded-full object-cover shadow-sm"
+                                                />
+                                            ) : (
+                                                <div
+                                                    className="w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold shadow-sm"
+                                                    style={{
+                                                        backgroundColor: getRandomColor(user.firstName)
+                                                    }}
+                                                >
+                                                    {user.firstName.charAt(0).toUpperCase()}
+                                                </div>
+                                            )
+                                        }
 
                                         <span
                                             className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-white ${user.gender === "Male"

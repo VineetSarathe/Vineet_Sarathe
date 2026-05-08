@@ -98,16 +98,25 @@ const ViewUserPage = () => {
 
           <div className="relative">
 
-            <div className="w-28 h-28 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center text-4xl font-bold text-white shadow-md">
-              {user.firstName?.charAt(0)}
-            </div>
+            {
+              user.profileImage ? (
+                <img
+                  src={`https://vineet-sarathe.onrender.com${user.profileImage}`}
+                  alt="profile"
+                  className="w-28 h-28 rounded-full object-cover shadow-md"
+                />
+              ) : (
+                <div className="w-28 h-28 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center text-4xl font-bold text-white shadow-md">
+                  {user.firstName?.charAt(0)}
+                </div>
+              )
+            }
 
             <div
-              className={`absolute bottom-1 right-1 w-7 h-7 rounded-full border-4 border-white flex items-center justify-center text-xs font-bold text-white ${
-                user.gender === "Male"
+              className={`absolute bottom-1 right-1 w-7 h-7 rounded-full border-4 border-white flex items-center justify-center text-xs font-bold text-white ${user.gender === "Male"
                   ? "bg-blue-500"
                   : "bg-pink-500"
-              }`}
+                }`}
             >
               {user.gender === "Male" ? "M" : "F"}
             </div>
@@ -121,11 +130,10 @@ const ViewUserPage = () => {
 
 
           <span
-            className={`mt-3 px-4 py-1 rounded-full text-sm font-medium ${
-              user.status === "Active"
+            className={`mt-3 px-4 py-1 rounded-full text-sm font-medium ${user.status === "Active"
                 ? "bg-green-100 text-green-700"
                 : "bg-red-100 text-red-700"
-            }`}
+              }`}
           >
             {user.status}
           </span>
