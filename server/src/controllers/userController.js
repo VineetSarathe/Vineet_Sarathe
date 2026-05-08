@@ -9,7 +9,25 @@ const getPagination = require("../utils/pagination");
 // ==========================================
 const createUser = async (req, res) => {
   try {
-    const { isValid, errors } = validateUser(req.body);
+
+    if (req.file) {
+  req.body.profileImage =
+    `/uploads/${req.file.filename}`;
+}
+
+const userData = {
+  firstName: req.body.firstName || "",
+  lastName: req.body.lastName || "",
+  email: req.body.email || "",
+  mobile: req.body.mobile || "",
+  gender: req.body.gender || "",
+  status: req.body.status || "",
+  location: req.body.location || "",
+  profileImage: req.body.profileImage || "",
+};
+
+const { isValid, errors } =
+  validateUser(userData);
 
     if (!isValid) {
       return res.status(400).json({
@@ -19,8 +37,8 @@ const createUser = async (req, res) => {
     }
 
     const existingUser = await User.findOne({
-      email: req.body.email,
-    });
+  email: userData.email,
+});
 
     if (existingUser) {
       return res.status(400).json({
@@ -29,7 +47,7 @@ const createUser = async (req, res) => {
       });
     }
 
-    const user = await User.create(req.body);
+    const user = await User.create(userData);
 
     res.status(201).json({
       success: true,
@@ -206,6 +224,7 @@ const exportUsersCSV = async (req, res) => {
       "gender",
       "status",
       "location",
+      "profileImage",
     ];
 
     const formattedUsers = users.map((user) => ({
@@ -216,6 +235,7 @@ const exportUsersCSV = async (req, res) => {
       gender: user.gender,
       status: user.status,
       location: user.location,
+      profileImage: user.profileImage,
     }));
 
     const json2csv = new Parser({ fields });

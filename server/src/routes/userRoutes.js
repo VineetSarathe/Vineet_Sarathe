@@ -9,6 +9,8 @@ const {
   exportUsersCSV,
 } = require("../controllers/userController");
 
+const upload = require("../middlewares/uploadMiddleware");
+
 const router = express.Router();
 
 
@@ -17,7 +19,10 @@ const router = express.Router();
 // GET USERS WITH SEARCH + PAGINATION
 // ==========================================
 router.route("/")
-  .post(createUser)
+  .post(
+    upload.single("profileImage"),
+    createUser
+  )
   .get(getUsers);
 
 
@@ -34,8 +39,12 @@ router.get("/export/csv", exportUsersCSV);
 // ==========================================
 router.route("/:id")
   .get(getSingleUser)
-  .put(updateUser)
+  .put(
+    upload.single("profileImage"),
+    updateUser
+  )
   .delete(deleteUser);
 
 
+ 
 module.exports = router;

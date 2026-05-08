@@ -21,7 +21,15 @@ export const getSingleUser = async (id) => {
 
 // CREATE USER
 export const createUser = async (userData) => {
-  const response = await API.post("/users", userData);
+  const response = await API.post(
+  "/users",
+  userData,
+  {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }
+);
 
   return response.data;
 };
