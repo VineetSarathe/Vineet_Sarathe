@@ -37,7 +37,16 @@ export const createUser = async (userData) => {
 
 // UPDATE USER
 export const updateUser = async (id, userData) => {
-  const response = await API.put(`/users/${id}`, userData);
+  // const response = await API.put(`/users/${id}`, userData);
+  const response = await API.put(
+  `/users/${id}`,
+  userData,
+  {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }
+);
 
   return response.data;
 };

@@ -137,18 +137,80 @@ const getSingleUser = async (req, res) => {
 // ==========================================
 // UPDATE USER
 // ==========================================
+// const updateUser = async (req, res) => {
+//   try {
+//     const { isValid, errors } = validateUser(req.body);
+
+//     if (!isValid) {
+//       return res.status(400).json({
+//         success: false,
+//         errors,
+//       });
+//     }
+
+//     const user = await User.findById(req.params.id);
+
+//     if (!user) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "User not found",
+//       });
+//     }
+
+//     const updatedUser = await User.findByIdAndUpdate(
+//       req.params.id,
+//       req.body,
+//       {
+//         new: true,
+//         runValidators: true,
+//       }
+//     );
+
+//     res.status(200).json({
+//       success: true,
+//       message: "User updated successfully",
+//       user: updatedUser,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
 const updateUser = async (req, res) => {
   try {
-    const { isValid, errors } = validateUser(req.body);
 
-    if (!isValid) {
-      return res.status(400).json({
-        success: false,
-        errors,
-      });
+    // Handle uploaded image
+    if (req.file) {
+      req.body.profileImage =
+        `/uploads/${req.file.filename}`;
     }
 
-    const user = await User.findById(req.params.id);
+    const updatedData = {
+      firstName: req.body.firstName || "",
+      lastName: req.body.lastName || "",
+      email: req.body.email || "",
+      mobile: req.body.mobile || "",
+      gender: req.body.gender || "",
+      status: req.body.status || "",
+      location: req.body.location || "",
+    };
+
+    // Only update image if new image uploaded
+    if (req.body.profileImage) {
+      updatedData.profileImage =
+        req.body.profileImage;
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      updatedData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
     if (!user) {
       return res.status(404).json({
@@ -157,21 +219,14 @@ const updateUser = async (req, res) => {
       });
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-
     res.status(200).json({
       success: true,
       message: "User updated successfully",
-      user: updatedUser,
+      user,
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message,
