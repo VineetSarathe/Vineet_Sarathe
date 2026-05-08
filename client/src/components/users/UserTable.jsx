@@ -1,178 +1,181 @@
-import { FaEye, FaEdit, FaTrash, FaEllipsisV } from "react-icons/fa";
-import StatusBadge from "./StatusBadge";
+import {
+    FaEye,
+    FaEdit,
+    FaTrash,
+    FaEllipsisV,
+} from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const UserTable = ({ users, handleDeleteClick }) => {
-
     const [openMenu, setOpenMenu] = useState(null);
 
-    const getRandomColor = (seed) => {
-        const colors = [
-            "#f87171", "#60a5fa", "#34d399",
-            "#fbbf24", "#a78bfa", "#fb7185"
-        ];
-
-        let index = seed.charCodeAt(0) % colors.length;
-        return colors[index];
-    };
     return (
-        <div className="overflow-x-auto bg-white rounded-2xl border border-gray-100 shadow-sm">
-            <table className="w-full">
-                <thead className="bg-gray-50 border-b">
+        <div className="bg-white rounded-md shadow border overflow-hidden">
 
-                    <tr>
+            {/* TABLE */}
+            <div className="overflow-x-auto">
 
-                        <th className="px-6 py-5 text-left text-sm font-bold text-gray-900 uppercase tracking-wide">
-                            Name
-                        </th>
+                <table className="w-full text-sm">
 
-                        <th className="px-6 py-5 text-center text-sm font-bold text-gray-900 uppercase tracking-wide">
-                            Email
-                        </th>
+                    {/* HEADER */}
+                    <thead className="bg-[#1d222b] text-white">
+                        <tr>
+                            <th className="px-4 py-3 text-left">ID</th>
 
-                        <th className="px-6 py-5 text-center text-sm font-bold text-gray-900 uppercase tracking-wide">
-                            Mobile
-                        </th>
+                            <th className="px-4 py-3 text-left">
+                                FullName
+                            </th>
 
-                        <th className="px-6 py-5 text-center text-sm font-bold text-gray-900 uppercase tracking-wide">
-                            Status
-                        </th>
+                            <th className="px-4 py-3 text-left">
+                                Email
+                            </th>
 
-                        <th className="px-6 py-5 text-center text-sm font-bold text-gray-900 uppercase tracking-wide">
-                            Actions
-                        </th>
+                            <th className="px-4 py-3 text-left">
+                                Gender
+                            </th>
 
-                    </tr>
+                            <th className="px-4 py-3 text-center">
+                                Status
+                            </th>
 
-                </thead>
+                            <th className="px-4 py-3 text-center">
+                                Profile
+                            </th>
 
-                <tbody>
-                    {users.map((user) => (
-                        <tr
-                            key={user._id}
-                            className="border-b hover:bg-blue-50/40 transition duration-200"
-                        >
-                            <td className="px-6 py-4">
-                                <div className="flex items-center gap-3">
+                            <th className="px-4 py-3 text-center">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
 
-                                    <div className="relative flex-shrink-0">
+                    {/* BODY */}
+                    <tbody>
+                        {users.map((user, index) => (
+                            <tr
+                                key={user._id}
+                                className="border-b hover:bg-gray-50 transition"
+                            >
+                                {/* ID */}
+                                <td className="px-4 py-4">
+                                    {index + 1}
+                                </td>
 
-                                        {/* <div
-                                           className="w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold shadow-sm"
-                                            style={{
-                                                backgroundColor: getRandomColor(user.firstName)
-                                            }}
-                                        >
-                                            {user.firstName.charAt(0).toUpperCase()}
-                                        </div> */}
+                                {/* NAME */}
+                                <td className="px-4 py-4">
+                                    {user.firstName} {user.lastName}
+                                </td>
 
-                                        {
-                                            user.profileImage ? (
-                                                <img
-                                                    src={`https://vineet-sarathe.onrender.com${user.profileImage}`}
-                                                    alt="profile"
-                                                    className="w-11 h-11 rounded-full object-cover shadow-sm"
-                                                />
-                                            ) : (
-                                                <div
-                                                    className="w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold shadow-sm"
-                                                    style={{
-                                                        backgroundColor: getRandomColor(user.firstName)
-                                                    }}
-                                                >
-                                                    {user.firstName.charAt(0).toUpperCase()}
-                                                </div>
+                                {/* EMAIL */}
+                                <td className="px-4 py-4 text-gray-700">
+                                    {user.email}
+                                </td>
+
+                                {/* GENDER */}
+                                <td className="px-4 py-4">
+                                    {user.gender === "Male" ? "M" : "F"}
+                                </td>
+
+                                {/* STATUS */}
+                                <td className="px-4 py-4 text-center align-middle">
+
+                                    <div
+                                        className={`
+    inline-flex
+    items-center
+    justify-center
+    px-4
+    py-2
+    rounded-md
+    text-white
+    text-sm
+    font-medium
+    ${user.status === "Active"
+                                                ? "bg-green-600"
+                                                : "bg-red-500"
+                                            }
+  `}
+                                    >
+                                        {user.status}
+                                    </div>
+
+                                </td>
+
+                                {/* PROFILE */}
+                                <td className="px-4 py-4 text-center">
+
+                                    {user.profileImage ? (
+                                        <img
+                                            src={`https://vineet-sarathe.onrender.com${user.profileImage}`}
+                                            alt="profile"
+                                            className="w-10 h-10 rounded-full object-cover mx-auto border"
+                                        />
+                                    ) : (
+                                        <img
+                                            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                            alt="profile"
+                                            className="w-10 h-10 rounded-full mx-auto"
+                                        />
+                                    )}
+
+                                </td>
+
+                                {/* ACTION */}
+                                <td className="px-4 py-4 relative text-center">
+
+                                    <button
+                                        onClick={() =>
+                                            setOpenMenu(
+                                                openMenu === user._id
+                                                    ? null
+                                                    : user._id
                                             )
                                         }
+                                        className="p-2"
+                                    >
+                                        <FaEllipsisV />
+                                    </button>
 
-                                        <span
-                                            className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-white ${user.gender === "Male"
-                                                ? "bg-blue-500 text-white"
-                                                : "bg-pink-500 text-white"
-                                                }`}
-                                        >
-                                            {user.gender === "Male" ? "M" : "F"}
-                                        </span>
+                                    {openMenu === user._id && (
+                                        <div className="absolute right-6 top-12 bg-white shadow-lg border rounded w-36 z-50">
 
-                                    </div>
+                                            <Link
+                                                to={`/view-user/${user._id}`}
+                                                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-green-600"
+                                            >
+                                                <FaEye />
+                                                View
+                                            </Link>
 
-                                    <div>
-                                        <h3 className="font-semibold text-gray-900 capitalize">
-                                            {user.firstName} {user.lastName}
-                                        </h3>
+                                            <Link
+                                                to={`/edit-user/${user._id}`}
+                                                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-blue-600"
+                                            >
+                                                <FaEdit />
+                                                Edit
+                                            </Link>
 
-                                        <p className="text-sm text-gray-500">
-                                            {user.location}
-                                        </p>
-                                    </div>
+                                            <button
+                                                onClick={() =>
+                                                    handleDeleteClick(user._id)
+                                                }
+                                                className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-red-600"
+                                            >
+                                                <FaTrash />
+                                                Delete
+                                            </button>
 
-                                </div>
-                            </td>
+                                        </div>
+                                    )}
 
-                            <td className="px-6 py-4 text-center">
-                                {user.email}
-                            </td>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
 
-                            <td className="px-6 py-4 text-center">
-                                {user.mobile}
-                            </td>
-
-                            <td className="px-6 py-4 text-center">
-                                <StatusBadge status={user.status} />
-                            </td>
-
-                            <td className="px-6 py-4 relative text-center">
-
-                                <button
-                                    onClick={() =>
-                                        setOpenMenu(
-                                            openMenu === user._id ? null : user._id
-                                        )
-                                    }
-                                    className="p-2 hover:bg-gray-100 rounded-lg"
-                                >
-                                    <FaEllipsisV />
-                                </button>
-
-
-                                {openMenu === user._id && (
-                                    <div className="absolute right-6 mt-2 w-32 bg-white border border-gray-100 rounded-xl shadow-lg z-10 overflow-hidden">
-
-                                        <Link
-                                            to={`/view-user/${user._id}`}
-                                            className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-blue-50 transition text-blue-600"
-                                        >
-                                            <FaEye />
-                                            View
-                                        </Link>
-
-
-                                        <Link
-                                            to={`/edit-user/${user._id}`}
-                                            className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-blue-50 transition text-green-600"
-                                        >
-                                            <FaEdit />
-                                            Edit
-                                        </Link>
-
-
-                                        <button
-                                            onClick={() => handleDeleteClick(user._id)}
-                                            className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-blue-50 transition text-red-600"
-                                        >
-                                            <FaTrash />
-                                            Delete
-                                        </button>
-
-                                    </div>
-                                )}
-
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                </table>
+            </div>
         </div>
     );
 };

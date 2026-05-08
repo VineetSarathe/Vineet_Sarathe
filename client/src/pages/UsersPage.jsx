@@ -62,8 +62,9 @@ const UsersPage = () => {
     // ==========================================
     useEffect(() => {
 
-        // Wake up backend server
-        fetch(import.meta.env.VITE_API_URL);
+        fetch(
+            `${import.meta.env.VITE_API_URL}/users`
+        );
 
         // Fetch users after short delay
         const timer = setTimeout(() => {
@@ -108,27 +109,19 @@ const UsersPage = () => {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
 
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-800">
-                        Users Management
-                    </h1>
-
-                    <p className="text-gray-500 mt-1">
-                        Manage all users from dashboard
-                    </p>
+                    <SearchBar
+                        search={search}
+                        setSearch={setSearch}
+                    />
                 </div>
 
 
                 {/* ACTIONS */}
                 <div className="flex flex-col sm:flex-row gap-3">
 
-                    <SearchBar
-                        search={search}
-                        setSearch={setSearch}
-                    />
-
                     <button
                         onClick={exportUsersCSV}
-                        className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-300"
+                        className="flex items-center justify-center gap-2 bg-red-900 hover:bg-red-800 text-white px-4 py-2 rounded-lg transition duration-300 cursor-pointer"
                     >
                         <FaFileExport />
                         Export CSV
@@ -136,7 +129,7 @@ const UsersPage = () => {
 
                     <Link
                         to="/add-user"
-                        className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300"
+                        className="flex items-center justify-center gap-2 bg-red-900 hover:bg-red-800 text-white px-4 py-2 rounded-lg transition duration-300"
                     >
                         <FaPlus />
                         Add User

@@ -15,192 +15,268 @@ import MainLayout from "../components/layout/MainLayout";
 import { getSingleUser } from "../services/userService";
 
 const ViewUserPage = () => {
+
   const { id } = useParams();
 
   const [user, setUser] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
-
   // ==========================================
   // FETCH USER
   // ==========================================
   const fetchUser = async () => {
+
     try {
+
       setLoading(true);
 
       const data = await getSingleUser(id);
 
       setUser(data.user);
+
     } catch (error) {
+
       console.log(error);
+
     } finally {
+
       setLoading(false);
+
     }
   };
-
 
   useEffect(() => {
     fetchUser();
   }, []);
 
-
   // ==========================================
   // LOADING
   // ==========================================
   if (loading) {
+
     return (
       <MainLayout>
+
         <div className="flex justify-center items-center py-20">
+
           <h1 className="text-xl font-semibold text-gray-600">
+
             Loading...
+
           </h1>
+
         </div>
+
       </MainLayout>
     );
   }
-
 
   // ==========================================
   // NO USER
   // ==========================================
   if (!user) {
+
     return (
       <MainLayout>
+
         <div className="flex justify-center items-center py-20">
+
           <h1 className="text-xl font-semibold text-red-500">
+
             User not found
+
           </h1>
+
         </div>
+
       </MainLayout>
     );
   }
 
-
   return (
+
     <MainLayout>
 
       {/* BACK BUTTON */}
       <Link
         to="/"
-        className="inline-flex items-center gap-2 mb-8 text-blue-600 hover:text-blue-800 transition"
+        className="
+          inline-flex
+          items-center
+          gap-2
+          mb-6
+          bg-[#a94442]
+          hover:bg-[#923b39]
+          text-white
+          px-4
+          py-2
+          rounded
+          transition
+        "
       >
+
         <FaArrowLeft />
-        Back to Users
+
+        Back
+
       </Link>
 
-
       {/* PROFILE CARD */}
-      <div className="bg-white border rounded-3xl shadow-sm p-8 max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto bg-white border shadow-md rounded-md overflow-hidden">
 
-        {/* TOP SECTION */}
-        <div className="flex flex-col items-center text-center border-b pb-8">
+        {/* HEADER */}
+        <div className="bg-[#1c2230] py-8 flex flex-col items-center">
 
-          <div className="relative">
+          {/* IMAGE */}
+          {
+            user.profileImage ? (
 
-            {
-              user.profileImage ? (
-                <img
-                  src={`https://vineet-sarathe.onrender.com${user.profileImage}`}
-                  alt="profile"
-                  className="w-28 h-28 rounded-full object-cover shadow-md"
-                />
-              ) : (
-                <div className="w-28 h-28 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center text-4xl font-bold text-white shadow-md">
-                  {user.firstName?.charAt(0)}
-                </div>
-              )
-            }
+              <img
+                src={`https://vineet-sarathe.onrender.com${user.profileImage}`}
+                alt="profile"
+                className="w-28 h-28 rounded-full object-cover border-4 border-white"
+              />
 
-            <div
-              className={`absolute bottom-1 right-1 w-7 h-7 rounded-full border-4 border-white flex items-center justify-center text-xs font-bold text-white ${user.gender === "Male"
-                  ? "bg-blue-500"
-                  : "bg-pink-500"
-                }`}
-            >
-              {user.gender === "Male" ? "M" : "F"}
-            </div>
+            ) : (
 
-          </div>
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                alt="profile"
+                className="w-28 h-28 rounded-full border-4 border-white"
+              />
 
+            )
+          }
 
-          <h1 className="text-3xl font-bold mt-5 text-gray-800">
+          {/* NAME */}
+          <h1 className="text-3xl font-bold text-white mt-4">
+
             {user.firstName} {user.lastName}
+
           </h1>
 
-
+          {/* STATUS */}
           <span
-            className={`mt-3 px-4 py-1 rounded-full text-sm font-medium ${user.status === "Active"
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-              }`}
+            className={`
+              mt-3
+              px-4
+              py-1
+              rounded
+              text-sm
+              font-medium
+              text-white
+              ${
+                user.status === "Active"
+                  ? "bg-green-600"
+                  : "bg-red-500"
+              }
+            `}
           >
+
             {user.status}
+
           </span>
 
         </div>
 
-
         {/* DETAILS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
+        <div className="p-8">
 
-          <div className="bg-gray-50 rounded-2xl p-5 flex items-center gap-4">
-            <FaEnvelope className="text-blue-500 text-lg" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <div>
-              <p className="text-sm text-gray-500">
-                Email
-              </p>
+            {/* EMAIL */}
+            <div className="border rounded p-5 flex items-start gap-4">
 
-              <h3 className="font-medium text-gray-800 break-all">
-                {user.email}
-              </h3>
+              <FaEnvelope className="text-[#a94442] text-xl mt-1" />
+
+              <div>
+
+                <p className="text-gray-500 text-sm mb-1">
+
+                  Email Address
+
+                </p>
+
+                <h3 className="text-lg font-medium text-black break-all">
+
+                  {user.email}
+
+                </h3>
+
+              </div>
+
             </div>
-          </div>
 
+            {/* MOBILE */}
+            <div className="border rounded p-5 flex items-start gap-4">
 
-          <div className="bg-gray-50 rounded-2xl p-5 flex items-center gap-4">
-            <FaPhone className="text-green-500 text-lg" />
+              <FaPhone className="text-[#a94442] text-xl mt-1" />
 
-            <div>
-              <p className="text-sm text-gray-500">
-                Mobile
-              </p>
+              <div>
 
-              <h3 className="font-medium text-gray-800">
-                {user.mobile}
-              </h3>
+                <p className="text-gray-500 text-sm mb-1">
+
+                  Mobile Number
+
+                </p>
+
+                <h3 className="text-lg font-medium text-black">
+
+                  {user.mobile}
+
+                </h3>
+
+              </div>
+
             </div>
-          </div>
 
+            {/* LOCATION */}
+            <div className="border rounded p-5 flex items-start gap-4">
 
-          <div className="bg-gray-50 rounded-2xl p-5 flex items-center gap-4">
-            <FaMapMarkerAlt className="text-red-500 text-lg" />
+              <FaMapMarkerAlt className="text-[#a94442] text-xl mt-1" />
 
-            <div>
-              <p className="text-sm text-gray-500">
-                Location
-              </p>
+              <div>
 
-              <h3 className="font-medium text-gray-800">
-                {user.location}
-              </h3>
+                <p className="text-gray-500 text-sm mb-1">
+
+                  Location
+
+                </p>
+
+                <h3 className="text-lg font-medium text-black">
+
+                  {user.location}
+
+                </h3>
+
+              </div>
+
             </div>
-          </div>
 
+            {/* GENDER */}
+            <div className="border rounded p-5 flex items-start gap-4">
 
-          <div className="bg-gray-50 rounded-2xl p-5 flex items-center gap-4">
-            <FaUser className="text-purple-500 text-lg" />
+              <FaUser className="text-[#a94442] text-xl mt-1" />
 
-            <div>
-              <p className="text-sm text-gray-500">
-                Gender
-              </p>
+              <div>
 
-              <h3 className="font-medium text-gray-800">
-                {user.gender}
-              </h3>
+                <p className="text-gray-500 text-sm mb-1">
+
+                  Gender
+
+                </p>
+
+                <h3 className="text-lg font-medium text-black">
+
+                  {user.gender}
+
+                </h3>
+
+              </div>
+
             </div>
+
           </div>
 
         </div>
