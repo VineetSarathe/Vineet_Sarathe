@@ -1,4 +1,12 @@
 const multer = require("multer");
+const fs = require("fs");
+
+
+// Create uploads folder automatically
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
+}
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -6,9 +14,13 @@ const storage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
+    cb(
+      null,
+      Date.now() + "-" + file.originalname
+    );
   },
 });
+
 
 const upload = multer({ storage });
 
