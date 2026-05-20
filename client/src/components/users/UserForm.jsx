@@ -12,10 +12,13 @@ const UserForm = ({
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues,
   });
+
+  const profileImage = watch("profileImage");
 
   const submitForm = (data) => {
 
@@ -346,7 +349,16 @@ const UserForm = ({
             "
           />
 
-        </div>
+          {/* Before submission show image */}
+          <div>
+            {profileImage && (
+
+            <img
+              src={URL.createObjectURL(profileImage)}
+              alt="preview"
+              className="w-20 h-20 rounded-full mt-4"
+            /> )}
+          </div>
 
         {/* LOCATION */}
         <div>
@@ -377,6 +389,8 @@ const UserForm = ({
         </div>
 
       </div>
+</div>
+
 
       {/* BUTTON */}
       <button
